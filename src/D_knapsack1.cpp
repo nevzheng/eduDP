@@ -14,21 +14,23 @@ void printVectorInVector(const T &t) {
 }
 
 long knapsack1(const vector<long> &val, const vector<long> &wgt, int N, int W) {
-    // dp[i][j] = Max Value with upto i items and weight j
-    // row 0 and col zero represent 0 items and 0 weight
-    vector dp(N + 1, vector(W + 1, 0L));
+    // dp[i] Max total value of items with total weight exactlt
+    vector<long> dp(W + 1);
     for (auto i = 1; i <= N; i++) {
         // shift down to handle offset form 0 col and row
         auto [v, wt] = std::tie(val[i - 1], wgt[i - 1]);
-        for (auto w = 1; w <= W; w++) {
-            if (wt <= w) {
-                dp[i][w] = max(dp[i - 1][w], v + dp[i - 1][w - wt]);
-            } else {// Exceed limit, exclude
-                dp[i][w] = dp[i - 1][w];
-            }
+        for (int w = W - wt; w >= 0; w--) {
+            dp[w + wt] = max(dp[w + wt], dp[w] + v);
         }
+        //        for (auto w = 1; w <= W; w++) {
+        //            if (wt <= w) {
+        //                dp[i][w] = max(dp[i - 1][w], v + dp[i - 1][w - wt]);
+        //            } else {// Exceed limit, exclude
+        //                dp[i][w] = dp[i - 1][w];
+        //            }
+        //        }
     }
-    return dp[N][W];
+    return *max_element(begin(dp), end(dp));
 }
 
 int main() {
