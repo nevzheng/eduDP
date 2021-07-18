@@ -30,7 +30,7 @@ long knapsack1(const vector<long> &val, const vector<long> &wgt, int N, int W) {
         //            }
         //        }
     }
-    return *max_element(begin(dp), end(dp));
+    return dp.back();
 }
 
 int main() {
