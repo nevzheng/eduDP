@@ -19,8 +19,8 @@ long knapsack1(const vector<long> &val, const vector<long> &wgt, int N, int W) {
     for (auto i = 1; i <= N; i++) {
         // shift down to handle offset form 0 col and row
         auto [v, wt] = std::tie(val[i - 1], wgt[i - 1]);
-        for (int w = W - wt; w >= 0; w--) {
-            dp[w + wt] = max(dp[w + wt], dp[w] + v);
+        for (int w = W; w >= wt; w--) {
+            dp[w] = max(dp[w], dp[w - wt] + v);
         }
         //        for (auto w = 1; w <= W; w++) {
         //            if (wt <= w) {
